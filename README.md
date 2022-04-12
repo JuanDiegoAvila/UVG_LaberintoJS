@@ -1,0 +1,1 @@
+Para correr el programa, ejecutar npm run build
