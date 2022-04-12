@@ -1,1 +1,2 @@
-Para correr el programa, ejecutar npm run build
+###### LABORATORIO WEB - Laberinto utilizando JS
+Para correr el programa, ejecutar '''npm start'''
