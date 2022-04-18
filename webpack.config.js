@@ -1,3 +1,5 @@
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+
 export default {
     mode: 'development',
     entry: './src/index.js',
@@ -11,14 +13,34 @@ export default {
         compress:true,
         port: 9000,
     },
+    plugins: [
+        new MiniCssExtractPlugin({ filename: 'styles.css' }),
+    ],
     module: {
         rules: [{
-            test: /\.jsx?$/,
-            use: ['babel-loader'],
+                test: /\.jsx?$/,
+                use: [{loader : 'babel-loader'},
+                {
+                    loader: '@linaria/webpack-loader',
+                    options: {
+                        sourceMap: process.env.NODE_ENV !== 'production'
+                    }
+                }
+                ],
             },
             {
                 test: /\.css$/i,
-                use: ["style-loader", "css-loader"],
+                use: [
+                    {
+                      loader: MiniCssExtractPlugin.loader,
+                    },
+                    {
+                      loader: 'css-loader',
+                      options: {
+                        sourceMap: process.env.NODE_ENV !== 'production'
+                      },
+                    },
+                  ],
               }
         ],
     
