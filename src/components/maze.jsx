@@ -1,0 +1,223 @@
+import Player from './player.jsx'
+import pared from '../../public/img/PARED.png'
+import goal from '../../public/img/GOAL.png'
+import audio from '../../public/audio/fondo.mp3'
+
+import {useEffect, useState, useCallback} from 'react'
+
+const Maze = ({setGano}) => {
+
+    const sound = new Audio(audio)
+    const [laberinto, setLaberinto] = useState([])
+    const [estado, setEstado] = useState('idle')
+    const [height, setHeight] = useState(4)
+    const [width, setWidth] = useState(4)
+ 
+    const getMaze = async () => {
+        
+        let fet = "https://maze.juanelcaballo.club/?type=json&w="+width+"&h="+height
+        
+        const response = await fetch(fet)
+            .then((response) => { return response.json() }
+            ).then((responseInJSON) => { return responseInJSON })
+
+        setLaberinto([...response])
+    
+    }
+
+    const getlistener = useCallback ((event) => {
+        const key = event.key;
+        setLaberinto((oldState)=>{
+
+            let x = oldState.findIndex((row) => row.indexOf('p') > -1)
+            let y = oldState[x].indexOf('p')
+
+            const newL = [...oldState]
+
+            switch (key) {
+            
+                case "ArrowLeft":
+                case "a":
+                    setEstado('left')
+                    if(newL[x][y-1] === ' '){
+                        newL[x][y] = " "
+                        newL[x][y-1] = 'p'
+                        y = y-1
+                        return newL
+                        
+                    }else if(newL[x][y-1] === 'g'){
+                        newL[x][y] = " "
+                        newL[x][y-1] = 'p'
+                        y = y-1
+                        setEstado('win')
+                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                        
+                    }
+                    
+                    break;
+                case "ArrowRight":
+                case "d":
+                    setEstado('right')
+                    if(newL[x][y+1] === ' '){
+                        newL[x][y] = " "
+                        newL[x][y+1] = 'p'
+                        y = y+1
+                        return newL
+                    }else if(newL[x][y+1] === 'g'){
+                        newL[x][y] = " "
+                        newL[x][y+1] = 'p'
+                        y = y+1
+                        setEstado('win')
+                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                        
+                    }
+                    break;
+                case "ArrowUp":
+                case "w":
+                    setEstado('up')
+                    if(newL[x-1][y] === ' '){
+                        newL[x][y] = " "
+                        newL[x-1][y] = 'p'
+                        x = x-1
+                        return newL
+                    }else if(newL[x-1][y] === 'g'){
+                        newL[x][y] = " "
+                        newL[x-1][y] = 'p'
+                        x = x-1
+                        setEstado('win')
+                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                        
+                    }
+                    break;
+                case "ArrowDown":
+                case "s":
+                    setEstado('down')
+                    if(newL[x+1][y] === ' '){
+                        newL[x][y] = " "
+                        newL[x+1][y] = 'p'
+                        x = x+1
+                        return newL
+                    }else if(newL[x+1][y] === 'g'){
+                        newL[x][y] = " "
+                        newL[x+1][y] = 'p'
+                        x = x+1
+                        setEstado('win')
+                        console.log('gano', estado)
+                        setTimeout(() => {sound.pause(); setGano(true);}, 3000)
+                        
+                    }
+                    break;
+
+            }
+            return newL
+        })
+
+    }, [])
+
+    useEffect( () => {
+        getMaze()
+        document.addEventListener("keydown",  getlistener)
+        
+        sound.play()
+        sound.loop = true
+        sound.volume = 0.2
+    }, [])
+
+    return (
+        <div css = {{
+            width: '100%',
+            height: '100%',
+            backgroundColor: '#E6833A',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+            }}>
+
+            <div css ={{
+                color: 'white',
+                textAlign: 'center',
+                width: '100%',
+                paddingTop: '20px'
+                
+            }}>
+                <h1>Cowboy's Maze</h1>
+            </div>
+
+            <div css = {{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'center',
+                border: '0px',
+                paddingBottom: '10px'
+            }}
+            >
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} onChange={(e) => setHeight(e.target.value)} value={height}></input>
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} value={width} onChange={(e) => setWidth(e.target.value)}></input>
+                <button css={{color: 'white', marginRight: '10px', backgroundColor: '#994D17', border: '0px', borderRadius: '5px'}} onClick={()=>{ getMaze()}}>Actualizar</button>
+            </div>
+            
+            <div css ={{
+                display: 'inline-block',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent:'center',
+                width: 'auto',
+                height: 'auto',
+                backgroundColor: '#F7943E',
+                padding: '20px'
+            }}>
+                
+            {
+                laberinto.map((row, i) => {
+                        
+                    return (
+                        <div key = {i} css= {{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'center'
+                        }}>
+                        {
+                            row.map((element, i2) => {
+
+
+                                if(element === '+' || element === '-' || element === '|' ){
+                                    
+                                    return (
+                                        <div key = {i2} css = {{backgroundImage: `url(${pared})`, height: '50px', width: '50px', backgroundSize: 'contain'}}/>
+                                    )
+                                    
+                                }if(element === 'p'){
+                                    
+                                    return (
+                                        <Player key={'player'} estado={estado} />
+                                    )
+                                }if(element === 'g'){
+                                    
+                                    return (
+                                        <div key = {i2} css = {{backgroundImage: `url(${goal})`, height: '50px', width: '50px', backgroundSize: 'contain', backgroundRepeat: 'no-repeat'}}/>
+                                    )
+                                }
+                                else{
+                                    return (
+                                        <div key = {i2} css = {{ height: '50px', width: '50px', border: '10px'}}/>
+                                    )
+                                }
+                                
+                            })
+                        }
+                        </div>
+                        
+                    )
+                    
+                })
+
+            }
+
+            </div>
+            
+        </div>
+    )
+}
+
+export default Maze
