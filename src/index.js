@@ -14,8 +14,8 @@ const App = () => {
 
     return (
         <div css = {{
-            width: '100%',
-            height: '100%',
+            width: '100vw',
+            height: '100vh',
 
         }}>
             {
@@ -35,7 +35,12 @@ const App = () => {
                     </div>
                 :
                     play ?
-                    <Maze setGano={setGano} gano={gano}/>
+                    <div css={{
+                        height: '100vh',
+                        width: '100vw'
+                    }}>
+                        <Maze setGano={setGano} gano={gano}/>
+                    </div>
                     :
                     <div css = {{
                         width: '100%',

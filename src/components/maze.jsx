@@ -162,10 +162,11 @@ const Maze = ({setGano}) => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent:'center',
-                width: 'auto',
-                height: 'auto',
+                width: '80vw',
+                height: '500px',
                 backgroundColor: '#F7943E',
-                padding: '20px'
+                padding: '20px',
+                overflow: 'scroll'
             }}>
                 
             {
