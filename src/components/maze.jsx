@@ -102,7 +102,6 @@ const Maze = ({setGano}) => {
                         newL[x+1][y] = 'p'
                         x = x+1
                         setEstado('win')
-                        console.log('gano', estado)
                         setTimeout(() => {sound.pause(); setGano(true);}, 3000)
                         
                     }
@@ -152,8 +151,8 @@ const Maze = ({setGano}) => {
                 paddingBottom: '10px'
             }}
             >
-                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} onChange={(e) => setHeight(e.target.value)} value={height}></input>
-                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} value={width} onChange={(e) => setWidth(e.target.value)}></input>
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeHolder={'Altura'} onChange={(e) => setHeight(e.target.value)} value={height}></input>
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeHolder={'Ancho'} value={width} onChange={(e) => setWidth(e.target.value)}></input>
                 <button css={{color: 'white', marginRight: '10px', backgroundColor: '#994D17', border: '0px', borderRadius: '5px'}} onClick={()=>{ getMaze()}}>Actualizar</button>
             </div>
             
