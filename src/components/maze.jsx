@@ -12,7 +12,8 @@ const Maze = ({setGano}) => {
     const [estado, setEstado] = useState('idle')
     const [height, setHeight] = useState(4)
     const [width, setWidth] = useState(4)
- 
+    let win = false
+
     const getMaze = async () => {
         
         let fet = "https://maze.juanelcaballo.club/?type=json&w="+width+"&h="+height
@@ -25,92 +26,101 @@ const Maze = ({setGano}) => {
     
     }
 
+
+
     const getlistener = useCallback ((event) => {
-        const key = event.key;
-        setLaberinto((oldState)=>{
 
-            let x = oldState.findIndex((row) => row.indexOf('p') > -1)
-            let y = oldState[x].indexOf('p')
+        if(!win){  
+            const key = event.key;
+            setLaberinto((oldState)=>{
 
-            const newL = [...oldState]
+                let x = oldState.findIndex((row) => row.indexOf('p') > -1)
+                let y = oldState[x].indexOf('p')
 
-            switch (key) {
-            
-                case "ArrowLeft":
-                case "a":
-                    setEstado('left')
-                    if(newL[x][y-1] === ' '){
-                        newL[x][y] = " "
-                        newL[x][y-1] = 'p'
-                        y = y-1
-                        return newL
-                        
-                    }else if(newL[x][y-1] === 'g'){
-                        newL[x][y] = " "
-                        newL[x][y-1] = 'p'
-                        y = y-1
-                        setEstado('win')
-                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
-                        
-                    }
-                    
-                    break;
-                case "ArrowRight":
-                case "d":
-                    setEstado('right')
-                    if(newL[x][y+1] === ' '){
-                        newL[x][y] = " "
-                        newL[x][y+1] = 'p'
-                        y = y+1
-                        return newL
-                    }else if(newL[x][y+1] === 'g'){
-                        newL[x][y] = " "
-                        newL[x][y+1] = 'p'
-                        y = y+1
-                        setEstado('win')
-                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
-                        
-                    }
-                    break;
-                case "ArrowUp":
-                case "w":
-                    setEstado('up')
-                    if(newL[x-1][y] === ' '){
-                        newL[x][y] = " "
-                        newL[x-1][y] = 'p'
-                        x = x-1
-                        return newL
-                    }else if(newL[x-1][y] === 'g'){
-                        newL[x][y] = " "
-                        newL[x-1][y] = 'p'
-                        x = x-1
-                        setEstado('win')
-                        setTimeout(() => {sound.pause(); setGano(true)}, 3000)
-                        
-                    }
-                    break;
-                case "ArrowDown":
-                case "s":
-                    setEstado('down')
-                    if(newL[x+1][y] === ' '){
-                        newL[x][y] = " "
-                        newL[x+1][y] = 'p'
-                        x = x+1
-                        return newL
-                    }else if(newL[x+1][y] === 'g'){
-                        newL[x][y] = " "
-                        newL[x+1][y] = 'p'
-                        x = x+1
-                        setEstado('win')
-                        setTimeout(() => {sound.pause(); setGano(true);}, 3000)
-                        
-                    }
-                    break;
+                const newL = [...oldState]
 
-            }
-            return newL
-        })
+                switch (key) {
+                
+                    case "ArrowLeft":
+                    case "a":
+                        setEstado('left')
+                        if(newL[x][y-1] === ' '){
+                            newL[x][y] = " "
+                            newL[x][y-1] = 'p'
+                            y = y-1
+                            return newL
+                            
+                        }else if(newL[x][y-1] === 'g'){
+                            newL[x][y] = " "
+                            newL[x][y-1] = 'p'
+                            y = y-1
+                            setEstado('win')
+                            win = true
+                            setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                            
+                        }
+                        
+                        break;
+                    case "ArrowRight":
+                    case "d":
+                        setEstado('right')
+                        if(newL[x][y+1] === ' '){
+                            newL[x][y] = " "
+                            newL[x][y+1] = 'p'
+                            y = y+1
+                            return newL
+                        }else if(newL[x][y+1] === 'g'){
+                            newL[x][y] = " "
+                            newL[x][y+1] = 'p'
+                            y = y+1
+                            setEstado('win')
+                            win = true
+                            setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                            
+                        }
+                        break;
+                    case "ArrowUp":
+                    case "w":
+                        setEstado('up')
+                        if(newL[x-1][y] === ' '){
+                            newL[x][y] = " "
+                            newL[x-1][y] = 'p'
+                            x = x-1
+                            return newL
+                        }else if(newL[x-1][y] === 'g'){
+                            newL[x][y] = " "
+                            newL[x-1][y] = 'p'
+                            x = x-1
+                            setEstado('win')
+                            win = true
+                            setTimeout(() => {sound.pause(); setGano(true)}, 3000)
+                            
+                        }
+                        break;
+                    case "ArrowDown":
+                    case "s":
+                        setEstado('down')
+                        if(newL[x+1][y] === ' '){
+                            newL[x][y] = " "
+                            newL[x+1][y] = 'p'
+                            x = x+1
+                            return newL
+                        }else if(newL[x+1][y] === 'g'){
+                            newL[x][y] = " "
+                            newL[x+1][y] = 'p'
+                            x = x+1
+                            setEstado('win')
+                            win = true
+                            setTimeout(() => {sound.pause(); setGano(true);}, 3000)
+                            
+                        }
+                        break;
 
+                }
+                return newL
+            })
+        }
+        
     }, [])
 
     useEffect( () => {
@@ -151,8 +161,8 @@ const Maze = ({setGano}) => {
                 paddingBottom: '10px'
             }}
             >
-                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeHolder={'Altura'} onChange={(e) => setHeight(e.target.value)} value={height}></input>
-                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeHolder={'Ancho'} value={width} onChange={(e) => setWidth(e.target.value)}></input>
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeholder={'Altura'} onChange={(e) => setHeight(e.target.value)} value={height}></input>
+                <input css={{marginRight: '10px', backgroundColor: '#FF9E59', border: '0px', borderRadius: '5px'}} placeholder={'Ancho'} value={width} onChange={(e) => setWidth(e.target.value)}></input>
                 <button css={{color: 'white', marginRight: '10px', backgroundColor: '#994D17', border: '0px', borderRadius: '5px'}} onClick={()=>{ getMaze()}}>Actualizar</button>
             </div>
             
