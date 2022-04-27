@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "lint": "eslint src/**"
   },
   "author": "",
   "license": "ISC",
@@ -23,6 +24,7 @@
     "babel-loader": "^8.2.4",
     "css-hot-loader": "^1.4.4",
     "file-loader": "^6.2.0",
+    "prop-types": "^15.8.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "style-loader": "^3.3.1",
@@ -33,6 +35,12 @@
   "devDependencies": {
     "@babel/plugin-transform-regenerator": "^7.17.9",
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "css-loader": "^6.7.1"
+    "css-loader": "^6.7.1",
+    "eslint": "^8.14.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.29.4",
+    "eslint-plugin-react-hooks": "^4.5.0"
   }
 }
