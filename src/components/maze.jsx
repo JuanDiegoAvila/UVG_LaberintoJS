@@ -4,7 +4,7 @@ import Player from './player.jsx'
 import pared from '../../public/img/PARED.png'
 import goal from '../../public/img/GOAL.png'
 import audio from '../../public/audio/fondo.mp3'
-
+/* --- Juan Diego Avila --- */
 const Maze = ({ setGano }) => {
   const sound = new Audio(audio)
   const [laberinto, setLaberinto] = useState([])
@@ -235,9 +235,7 @@ const Maze = ({ setGano }) => {
                 )
               })}
             </div>
-
           ))
-
       }
       </div>
     </div>
