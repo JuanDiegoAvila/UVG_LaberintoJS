@@ -239,7 +239,6 @@ const Maze = ({ setGano }) => {
           ))
 
       }
-
       </div>
     </div>
   )
